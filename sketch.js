@@ -3,8 +3,8 @@ let mySound2;
 let delay;
 let filter;
 let started = false;
-let path = "https://cdn.glitch.global/0e6bb8f1-939f-4495-ad95-1fd455dc9d3f/SC_NM_marimba_panoramic_Emaj.wav?v=1729070717819";
-let path2 = "https://cdn.glitch.global/0e6bb8f1-939f-4495-ad95-1fd455dc9d3f/SC_NM_150_perc_loop_tapping_mod.wav?v=1729070723625"
+let path = "/Users/alejandrovega/Documents/GitHub/html review/SC_NM_marimba_chord_Ebmaj.wav";
+let path2 = "/Users/alejandrovega/Documents/GitHub/html review/SC_NM_93_perc_loop_high_atabal_3_4_time.wav"
 let img;
 let button;
 let paneo;
@@ -15,7 +15,7 @@ function preload() {
   mySound2 = loadSound(path2);
   
   img = loadImage(
-    "https://cdn.glitch.global/0e6bb8f1-939f-4495-ad95-1fd455dc9d3f/nicaMarimba.jpg?v=1729071233361"
+    "/Users/alejandrovega/Documents/GitHub/html review/bg_img.jpg"
   );
 }
 
