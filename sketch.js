@@ -3,8 +3,8 @@ let mySound2;
 let delay;
 let filter;
 let started = false;
-let path = "/Users/alejandrovega/Documents/GitHub/html review/SC_NM_marimba_chord_Ebmaj.wav";
-let path2 = "/Users/alejandrovega/Documents/GitHub/html review/SC_NM_93_perc_loop_high_atabal_3_4_time.wav"
+let path = "assets/SC_NM_marimba_panoramic_Emaj.wav";
+let path2 = "assets/SC_NM_93_perc_loop_high_atabal_3_4_time.wav";
 let img;
 let button;
 let paneo;
@@ -14,9 +14,7 @@ function preload() {
   mySound = loadSound(path);
   mySound2 = loadSound(path2);
   
-  img = loadImage(
-    "/Users/alejandrovega/Documents/GitHub/html review/bg_img.jpg"
-  );
+  img = loadImage("assets/bg_img.jpg");
 }
 
 function setup() {
@@ -26,8 +24,7 @@ function setup() {
 
   //call start sound when the button is pressed.
   button.mousePressed(startSound);
-  fft = new p5.FFT();
-
+  // fft = new p5.FFT();
 
   //create modules and initialize parameters.
   delay = new p5.Delay();
@@ -47,13 +44,13 @@ function setup() {
   mySound2.connect(delay);
 
   imageMode(CENTER);
-  img.filter(GRAY);
+  // img.filter(GRAY);
 }
 
 function draw() {
   // frameRate(13);
   background(0);
-  img.resize(800, 580);
+  img.resize(1000, 500);
   image(img, width / 2, height / 2);
   
   mySound2.rate(random(0, 2));
