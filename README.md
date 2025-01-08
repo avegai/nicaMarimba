@@ -1,4 +1,4 @@
-# Hello website!
+# Introducing: nicaMarimba!
 
 This is a small website/playground to showcase a bit the history, possibilities and background of the Nicaraguan Marimba. 
 
