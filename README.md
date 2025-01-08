@@ -1,6 +1,6 @@
 # Introducing: nicaMarimba!
 
-This is a small website/playground to showcase a bit the history, possibilities and background of the Nicaraguan Marimba. 
+This is a small website/playground to showcase a bit of the history/background and possibilities of the Nicaraguan Marimba. 
 
 # Instructions:
 
