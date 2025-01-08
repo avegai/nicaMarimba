@@ -15,7 +15,6 @@ let path3 = "assets/SC_NM_marimba_single_note_C.wav";
 let path4 = "assets/SC_NM_marimba_single_note_E.wav";
 let path5 = "assets/SC_NM_marimba_single_note_G.wav";
 let path6 = "assets/SC_NM_fx_rattle_wooden.wav"
-// let img;
 let button;
 
 //visual parameters
@@ -32,13 +31,23 @@ function preload() {
   marimbaE = loadSound(path4);
   marimbaG = loadSound(path5);
   
-  img = loadImage("assets/bg_img.jpg");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   button = createButton("stop sound");
   button.position(width / 2, height / 2 + 325);
+
+  for(let i=0; i<numBars; i++){
+    let w = windowWidth/numBars;
+    let x = w * i;
+    xBar.push(x);
+  }
+
+  for(let i=0; i<numBars; i++){
+    bars.push(new Bar(i));
+    bars[i].display();
+  }
 
   //call start sound when the button is pressed.
   button.mousePressed(stopSound);
@@ -135,3 +144,9 @@ function keyPressed() {
 }
 
 // https://youtu.be/EnM8UPGwf5A?si=Dh0tHHHTcKl55OTv&t=384 - check this video for more info on how to use the touchscreen
+
+function touchStarted() {
+  for (let i=0; i=numBars; i++){
+    bars[i].played();
+  }
+}
