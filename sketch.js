@@ -1,23 +1,33 @@
 let atabal;
 let marimbaChord;
+let marimbaFX;
 let marimbaC;
 let marimbaE;
 let marimbaG;
 let delay;
 let filter;
+let distortion;
+let paneo;
 let started = false;
 let path = "assets/SC_NM_93_perc_loop_high_atabal_3_4_time.wav";
 let path2 = "assets/SC_NM_156_marimba_monimbo_arp_tail_3_4_time_Cmaj.wav";
 let path3 = "assets/SC_NM_marimba_single_note_C.wav";
 let path4 = "assets/SC_NM_marimba_single_note_E.wav";
 let path5 = "assets/SC_NM_marimba_single_note_G.wav";
-let img;
+let path6 = "assets/SC_NM_fx_rattle_wooden.wav"
+// let img;
 let button;
-let paneo;
+
+//visual parameters
+let numBars = 8;
+let bars = [];
+let xBar = [];
+let clr = ['#7B3F00', '#D27D2D', '#6F4E37', '#834333', '#B87333', '#B87333', '#814141', '#5C4033'];
 
 function preload() {
   atabal = loadSound(path);
   marimbaChord = loadSound(path2);
+  marimbaFX = loadSound(path6);
   marimbaC = loadSound(path3);
   marimbaE = loadSound(path4);
   marimbaG = loadSound(path5);
@@ -26,72 +36,102 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight);
-  button = createButton("start - stop");
+  createCanvas(windowWidth, windowHeight);
+  button = createButton("stop sound");
   button.position(width / 2, height / 2 + 325);
 
   //call start sound when the button is pressed.
-  button.mousePressed(startSound);
+  button.mousePressed(stopSound);
 
   //create modules and initialize parameters.
   delay = new p5.Delay();
-  delay.delayTime(random(0.1, 10));
-  delay.feedback(0.5);
-  filter = new p5.LowPass();
-  // atabal.loop();
-  // marimbaChord.loop();
+  filter = new p5.LowPass();  
+  distortion = new p5.Distortion();
 
   //connect modules
-  atabal.disconnect();
+  marimbaChord.disconnect();
+  marimbaChord.connect(filter);
   filter.disconnect();
-  atabal.connect(filter);
   filter.connect(delay);
   
-  marimbaChord.disconnect();
-  marimbaChord.connect(delay);
 
-  imageMode(CENTER);
-  img.filter(GRAY);
+  marimbaFX.disconnect();
+  marimbaFX.connect(delay);
+
+  atabal.disconnect();
+  atabal.connect(distortion);
+
+  // imageMode(CENTER);
+  // img.filter(GRAY);
 }
 
 
 function draw() {
-  // frameRate(13);
+  frameRate(60);
   background(0);
-  img.resize(1000, 500);
-  image(img, width / 2, height / 2);
+  // img.resize(1000, 500);
+  // image(img, width / 2, height / 2);
   
-  marimbaChord.rate(random(0, 2));
-
-  let frequency = map(mouseY, 0, height, 0, 20000);
-  // let resonance = map(mouseY, height, 0, 5, 25);
-  filter.res(5);
-  filter.freq(frequency);
+  let frequency = map(mouseX, 0, window.innerWidth, 60, 20000);
+  let resonance = map(mouseX, 0, window.innerWidth, 5, 100);
+  filter.freq(frequency); 
+  filter.res(resonance);
     
   let paneo = map(mouseX, 0, width, -1, 1);
-  atabal.pan(paneo); 
-  marimbaChord.pan(paneo);
-  
+  marimbaFX.pan(paneo); 
+
+  if (mouseIsPressed) {
+    distortion.drywet(0.5);
+  } else {
+    distortion.drywet(0);
+  }
 }
 
-function startSound() {
-  if (!started) {
-    // atabal.play();
-    // marimbaChord.play();
-    started = true;
-  } else {
-    atabal.stop();
-    marimbaChord.stop();
-    started = false;
-  }
+function stopSound() {
+  marimbaChord.stop();
+  marimbaFX.stop();
+  atabal.stop();
 }
 
 function keyPressed() {
   if (key === 'a') {
-    atabal.play();
+    marimbaC.play();
   }
 
   if (key === 's'){
+    marimbaE.play();
+  }
+
+  if (key === 'd') {
+    marimbaG.play();
+  }
+
+  if (key === '1'){
     marimbaChord.play();
   }
+
+  if (key === '2') {
+    atabal.play();
+  }
+
+  if (key === '3'){
+    marimbaFX.play();
+  }
+
+  if (key === '4'){
+    marimbaChord.rate(random(-5, -1));
+    marimbaChord.loop();
+  }
+
+  if (key === '5'){
+    marimbaFX.rate(random(-2, -0.5));
+    marimbaFX.loop();
+  }
+
+  if (key === '6'){
+    atabal.rate(random(0.5, 2));
+    atabal.loop();
+  }
 }
+
+// https://youtu.be/EnM8UPGwf5A?si=Dh0tHHHTcKl55OTv&t=384 - check this video for more info on how to use the touchscreen
