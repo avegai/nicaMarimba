@@ -103,43 +103,39 @@ function stopSound() {
 }
 
 function keyPressed() {
-  if (key === 'a') {
-    marimbaC.play();
-  }
-
-  if (key === 's'){
-    marimbaE.play();
-  }
-
-  if (key === 'd') {
-    marimbaG.play();
-  }
-
-  if (key === '1'){
-    marimbaChord.play();
-  }
-
-  if (key === '2') {
-    atabal.play();
-  }
-
-  if (key === '3'){
-    marimbaFX.play();
-  }
-
-  if (key === '4'){
-    marimbaChord.rate(random(-5, -1));
-    marimbaChord.loop();
-  }
-
-  if (key === '5'){
-    marimbaFX.rate(random(-2, -0.5));
-    marimbaFX.loop();
-  }
-
-  if (key === '6'){
-    atabal.rate(random(0.5, 2));
-    atabal.loop();
+  switch (key) {
+    case 'a':
+      marimbaC.play();
+      break;
+    case 's':
+      marimbaE.play();
+      break;
+    case 'd':  
+      marimbaG.play();
+      break;
+    case '1':
+      marimbaChord.play();
+      break;
+    case '2':
+      atabal.play();
+      break;
+    case '3':
+      marimbaFX.play();
+      break
+    case '4':
+      marimbaChord.rate(random(-5, -1));
+      marimbaChord.loop();
+      break;
+    case '5': 
+      marimbaFX.rate(random(-2, -0.5));
+      marimbaFX.loop();
+      break;
+    case '6': 
+      atabal.rate(random(0.5, 2));
+      atabal.loop();
+      break;
+    default:
+      break;
   }
 }
 
