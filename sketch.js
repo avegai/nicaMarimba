@@ -100,6 +100,7 @@ function stopSound() {
   marimbaChord.stop();
   marimbaFX.stop();
   atabal.stop();
+
 }
 
 function keyPressed() {
@@ -133,6 +134,9 @@ function keyPressed() {
     case '6': 
       atabal.rate(random(0.5, 2));
       atabal.loop();
+      break;
+    case '0':
+      stopSound();
       break;
     default:
       break;
