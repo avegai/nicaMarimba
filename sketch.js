@@ -15,7 +15,6 @@ let path3 = "assets/SC_NM_marimba_single_note_C.wav";
 let path4 = "assets/SC_NM_marimba_single_note_E.wav";
 let path5 = "assets/SC_NM_marimba_single_note_G.wav";
 let path6 = "assets/SC_NM_fx_rattle_wooden.wav"
-let button;
 
 //visual parameters
 let numBars = 8;
@@ -35,8 +34,8 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  button = createButton("stop sound");
-  button.position(width / 2, height / 2 + 325);
+  // button = createButton("stop sound");
+  // button.position(width / 2, height / 2 + 325);
 
   for(let i=0; i<numBars; i++){
     let w = windowWidth/numBars;
@@ -50,7 +49,7 @@ function setup() {
   }
 
   //call start sound when the button is pressed.
-  button.mousePressed(stopSound);
+  // button.mousePressed(stopSound);
 
   //create modules and initialize parameters.
   delay = new p5.Delay();
