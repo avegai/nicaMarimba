@@ -9,6 +9,7 @@ let filter;
 let distortion;
 let paneo;
 let started = false;
+// TIP: cambiar nombre a algo mas explicito, como pathNoteC, pathPercLoopHigh, etc
 let path = "assets/SC_NM_93_perc_loop_high_atabal_3_4_time.wav";
 let path2 = "assets/SC_NM_156_marimba_monimbo_arp_tail_3_4_time_Cmaj.wav";
 let path3 = "assets/SC_NM_marimba_single_note_C.wav";
@@ -16,6 +17,7 @@ let path4 = "assets/SC_NM_marimba_single_note_E.wav";
 let path5 = "assets/SC_NM_marimba_single_note_G.wav";
 let path6 = "assets/SC_NM_fx_rattle_wooden.wav"
 
+let appStarted = false;
 
 function preload() {
   atabal = loadSound(path);
@@ -78,41 +80,56 @@ function stopSound() {
 }
 
 function keyPressed() {
-  switch (key) {
-    case 'a':
-      marimbaC.play();
-      break;
-    case 's':
-      marimbaE.play();
-      break;
-    case 'd':  
-      marimbaG.play();
-      break;
-    case '1':
-      marimbaChord.play();
-      break;
-    case '2':
-      atabal.play();
-      break;
-    case '3':
-      marimbaFX.play();
-      break
-    case '4':
-      marimbaChord.rate(random(-5, -1));
-      marimbaChord.loop();
-      break;
-    case '5': 
-      marimbaFX.rate(random(-2, -0.5));
-      marimbaFX.loop();
-      break;
-    case '6': 
-      atabal.rate(random(0.5, 2));
-      atabal.loop();
-      break;
-    case '0':
-      stopSound();
-      break;
-    default:
-      break;
+  if (appStarted) {
+    switch (key) {
+      case 'a':
+        console.log('calling A');
+        marimbaC.play();
+        break;
+      case 's':
+        marimbaE.play();
+        break;
+      case 'd':  
+        marimbaG.play();
+        break;
+      case '1':
+        marimbaChord.play();
+        break;
+      case '2':
+        atabal.play();
+        break;
+      case '3':
+        marimbaFX.play();
+        break
+      case '4':
+        marimbaChord.rate(random(-5, -1));
+        marimbaChord.loop();
+        break;
+      case '5': 
+        marimbaFX.rate(random(-2, -0.5));
+        marimbaFX.loop();
+        break;
+      case '6': 
+        atabal.rate(random(0.5, 2));
+        atabal.loop();
+        break;
+      case '0':
+        stopSound();
+        break;
+      default:
+        break;
+    }
+
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("overlay");
+  const closeOverlay = document.getElementById("closeOverlay");
+
+  // hide overlay and start app's functionality 
+  closeOverlay.addEventListener("click", () => {
+    overlay.style.display = 'none';
+    appStarted = true;
+  });
+});
