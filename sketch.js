@@ -16,11 +16,6 @@ let path4 = "assets/SC_NM_marimba_single_note_E.wav";
 let path5 = "assets/SC_NM_marimba_single_note_G.wav";
 let path6 = "assets/SC_NM_fx_rattle_wooden.wav"
 
-//visual parameters
-let numBars = 8;
-let bars = [];
-let xBar = [];
-let clr = ['#7B3F00', '#D27D2D', '#6F4E37', '#834333', '#B87333', '#B87333', '#814141', '#5C4033'];
 
 function preload() {
   atabal = loadSound(path);
@@ -34,22 +29,6 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // button = createButton("stop sound");
-  // button.position(width / 2, height / 2 + 325);
-
-  for(let i=0; i<numBars; i++){
-    let w = windowWidth/numBars;
-    let x = w * i;
-    xBar.push(x);
-  }
-
-  for(let i=0; i<numBars; i++){
-    bars.push(new Bar(i));
-    bars[i].display();
-  }
-
-  //call start sound when the button is pressed.
-  // button.mousePressed(stopSound);
 
   //create modules and initialize parameters.
   delay = new p5.Delay();
@@ -69,16 +48,12 @@ function setup() {
   atabal.disconnect();
   atabal.connect(distortion);
 
-  // imageMode(CENTER);
-  // img.filter(GRAY);
 }
 
 
 function draw() {
   frameRate(60);
   background(0);
-  // img.resize(1000, 500);
-  // image(img, width / 2, height / 2);
   
   let frequency = map(mouseX, 0, window.innerWidth, 60, 20000);
   let resonance = map(mouseX, 0, window.innerWidth, 5, 100);
@@ -139,13 +114,5 @@ function keyPressed() {
       break;
     default:
       break;
-  }
-}
-
-// https://youtu.be/EnM8UPGwf5A?si=Dh0tHHHTcKl55OTv&t=384 - check this video for more info on how to use the touchscreen
-
-function touchStarted() {
-  for (let i=0; i=numBars; i++){
-    bars[i].played();
   }
 }
