@@ -10,22 +10,22 @@ let distortion;
 let paneo;
 let started = false;
 // TIP: cambiar nombre a algo mas explicito, como pathNoteC, pathPercLoopHigh, etc
-let path = "assets/SC_NM_93_perc_loop_high_atabal_3_4_time.wav";
-let path2 = "assets/SC_NM_156_marimba_monimbo_arp_tail_3_4_time_Cmaj.wav";
-let path3 = "assets/SC_NM_marimba_single_note_C.wav";
-let path4 = "assets/SC_NM_marimba_single_note_E.wav";
-let path5 = "assets/SC_NM_marimba_single_note_G.wav";
-let path6 = "assets/SC_NM_fx_rattle_wooden.wav"
+let pathPercLoop = "assets/SC_NM_93_perc_loop_high_atabal_3_4_time.wav";
+let pathMarimbArp = "assets/SC_NM_156_marimba_monimbo_arp_tail_3_4_time_Cmaj.wav";
+let pathMarimbaFX = "assets/SC_NM_fx_rattle_wooden.wav"
+let pathNoteC = "assets/SC_NM_marimba_single_note_C.wav";
+let pathNoteE = "assets/SC_NM_marimba_single_note_E.wav";
+let pathNoteG = "assets/SC_NM_marimba_single_note_G.wav";
 
 let appStarted = false;
 
 function preload() {
-  atabal = loadSound(path);
-  marimbaChord = loadSound(path2);
-  marimbaFX = loadSound(path6);
-  marimbaC = loadSound(path3);
-  marimbaE = loadSound(path4);
-  marimbaG = loadSound(path5);
+  atabal = loadSound(pathPercLoop);
+  marimbaChord = loadSound(pathMarimbArp);
+  marimbaFX = loadSound(pathMarimbaFX);
+  marimbaC = loadSound(pathNoteC);
+  marimbaE = loadSound(pathNoteE);
+  marimbaG = loadSound(pathNoteG);
   
 }
 
