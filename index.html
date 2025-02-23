@@ -2,19 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- keep the line below for OpenProcessing compatibility -->
-    <script src="https://openprocessing.org/openprocessing_sketch.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/addons/p5.sound.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="sketch.js"></script>   
+    <link rel="stylesheet" type="text/css" href="style.css"/>
   </head>
-    <div class="white-border" class="header">
+  
+  
+  <div class="header">
       <h1>Nicaraguan Marimba Playground</h1>
     </div> 
-        <div id="overlay">
-          <div class="overlay-content">          
-
+        <div class="history">
+                  
               The Nicaraguan marimba is a unique and culturally significant instrument deeply rooted in the history and traditions of Nicaragua. Its development and use reflect the blending of indigenous, African, and European influences that have shaped the country’s cultural heritage.
 
               Origins:
@@ -37,16 +35,11 @@
               •	The instrument is prominently featured in cultural events and festivals, including the annual Granada International Poetry Festival and local patron saint celebrations.
               •	Efforts to preserve the craft of marimba-making and its traditional music are ongoing, as it holds a cherished place in the nation’s cultural landscape.
             </div>
-            <button id="closeOverlay" class="closeButton"> close</button>
-          </div>
-        </div>
-
         <div id="content">
-          <h3>Instructions</h3>
-
+          <h2>Instructions</h2>
           <div class = "instructions">
-              <ul>
-                <li>A thru K trigger single notes (C major scale), so you can play the marimba as a piano.</li>
+            <ul style="list-style-type: none;">
+                <li>A-K trigger single notes (C major scale)</li>
                 <li>1-8 trigger loops </li>
                 <li>The mouse on the x-axis controls the Cutoff of one of the loops</li>
                 <li>The mouse on the y-axis controls the Resonance of the same loop</li>
@@ -54,7 +47,17 @@
                 <li>Mouse clicks trigger a nice crunchy effect on the percussion.</li>
                 <li>0 stops sound</li>
               </ul>
-
           </div>
-    </body>
+
+          <body>
+              <div class="canvas-wrapper">
+                <div id="marimba-container"></div>
+              </div>
+          </body>
+
+        <script src="marimbaKeyboard.js"></script> 
+        <script src="marimbaBars.js"></script>
+        <div id="sketch-container-1"></div>
+        <div id="sketch-container-2"></div>
+  </div>
 </html>
