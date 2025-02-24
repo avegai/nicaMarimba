@@ -12,6 +12,13 @@ let marimbaSketch = (p) => {
     zapateo: "assets/SC_NM_156_marimba_phrase_slow_zapateo_3_4_time_Cmaj.wav",
     marimbaSad: "assets/SC_NM_82_marimba_tremolo_sad_Amin.wav",
     marimbaMasaya: "assets/SC_NM_150_marimba_masaya_Cmaj.wav",
+    marimbaC: "assets/SC_NM_marimba_single_note_1.wav",
+    marimbaD: "assets/SC_NM_marimba_single_note_2.wav",
+    marimbaE: "assets/SC_NM_marimba_single_note_3.wav",
+    marimbaF: "assets/SC_NM_marimba_single_note_4.wav",
+    marimbaG: "assets/SC_NM_marimba_single_note_5.wav",
+    marimbaA: "assets/SC_NM_marimba_single_note_6.wav",
+    marimbaB: "assets/SC_NM_marimba_single_note_7.wav"
   };
 
   p.preload = () => {
