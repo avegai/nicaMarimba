@@ -1,63 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/addons/p5.sound.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-  </head>
-  
-  
-  <div class="header">
-      <h1>Nicaraguan Marimba Playground</h1>
-    </div> 
-        <div class="history">
-                  
-              The Nicaraguan marimba is a unique and culturally significant instrument deeply rooted in the history and traditions of Nicaragua. Its development and use reflect the blending of indigenous, African, and European influences that have shaped the country’s cultural heritage.
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/addons/p5.sound.js"></script>
+  <script src="marimbaKeyboard.js"></script> 
+  <script src="marimbaHover.js"></script>
 
-              Origins:
-              •	The marimba is believed to have pre-Columbian origins, with roots in the indigenous cultures of Mesoamerica.
-              •	It was later influenced by African xylophones brought over by enslaved people during the colonial period.
-              •	The marimba evolved through a fusion of indigenous and African designs, incorporating European musical influences brought by Spanish colonizers.
-      
-              Characteristics of the Nicaraguan Marimba:
-              •	Unlike marimbas in other regions, the Nicaraguan version is known for its diatonic tuning, which gives it a distinctive sound.
-              •	The instrument is made of wooden bars of varying lengths, which are struck with mallets to produce sound.
-              •	Traditionally, gourd resonators are attached beneath the bars to amplify the sound, a feature borrowed from African designs.
-      
-              Role in Nicaraguan Culture:
-              •	The marimba is an integral part of Nicaraguan folk music and is commonly associated with celebrations, festivals, and traditional dances.
-              •	It is often played in small ensembles and is a key component of regional genres like Son Nica and palo de mayo.
-              •	The music produced by the marimba often accompanies Baile de la Marimba, a traditional dance showcasing the vibrant and rhythmic heritage of Nicaragua.
-      
-              Modern Significance:
-              •	In contemporary Nicaragua, the marimba remains a symbol of national identity and pride.
-              •	The instrument is prominently featured in cultural events and festivals, including the annual Granada International Poetry Festival and local patron saint celebrations.
-              •	Efforts to preserve the craft of marimba-making and its traditional music are ongoing, as it holds a cherished place in the nation’s cultural landscape.
-            </div>
-        <div id="content">
-          <h2>Instructions</h2>
-          <div class = "instructions">
-            <ul style="list-style-type: none;">
-                <li>A-K trigger single notes (C major scale)</li>
-                <li>1-8 trigger loops </li>
-                <li>The mouse on the x-axis controls the Cutoff of one of the loops</li>
-                <li>The mouse on the y-axis controls the Resonance of the same loop</li>
-                <li>The mouse on the x-axis controls the panning of one of the loops</li>
-                <li>Mouse clicks trigger a nice crunchy effect on the percussion.</li>
-                <li>0 stops sound</li>
-              </ul>
-          </div>
+	<title>Nicaraguan Marimba</title>
+	<style>
+		body {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			/* height: 100vh; */
+      padding-top: 20px;
+			background-color: #FFFFFF;
+			font-family: monospace;
+			text-align: center;
+			color: #0033A0;
+		}
 
-          <body>
-              <div class="canvas-wrapper">
-                <div id="marimba-container"></div>
-              </div>
-          </body>
+		.text-box {
+			width: 440px;
+			padding: 20px;
+			border: 2px solid #0033A0;
+			margin: 20px auto;
+			background-color: #FFFFFF;
+			color: #0033A0;
+		}
 
-        <script src="marimbaKeyboard.js"></script> 
-        <script src="marimbaBars.js"></script>
-        <div id="sketch-container-1"></div>
-        <div id="sketch-container-2"></div>
+    .instructions {
+      text-align: left;
+      margin: auto;
+    }
+
+		.marimba-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 20px;
+			border: 2px solid #0033A0;
+			background-color: #FFFFFF;
+			width: 440px;
+		}
+
+		.marimba {
+			display: flex;
+			gap: 5px;
+			align-items: center;
+		}
+
+		.key {
+			width: 50px;
+			background-color: #0033A0;
+			border: 2px solid #FFFFFF;
+			border-radius: 5px;
+			color: #FFFFFF;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.key:nth-child(1) { height: 200px; }
+		.key:nth-child(2) { height: 180px; }
+		.key:nth-child(3) { height: 160px; }
+		.key:nth-child(4) { height: 140px; }
+		.key:nth-child(5) { height: 120px; }
+		.key:nth-child(6) { height: 100px; }
+		.key:nth-child(7) { height: 80px; }
+		.key:nth-child(8) { height: 60px; }
+	</style>
+
+</head>
+<body>
+	<div class="text-box">
+    The marimba is believed to have pre-Columbian origins, with roots in the indigenous cultures of the Mesoamerican region but there is another version, which states that the marimba was brought to the continent by the African slaves. The Nicaraguan marimba does not look that different compared to other marimbas in the region like the Guatemalan or the Colombian one, for example. However, sonically it has an extra amount of crunch due to the gourd resonators with membranes made out of pig intestines. 
+    I had the privilege to work with 2 fantastic marimba players from this new generation in Nicaragua, Carlos Luis Mejia and Evenor Gonzalez. Both of them have stretched the possibilities of the instrument, while staying true to its sound. They played for la Cuneta Son Machin and Momotombo respectively. When recording the  instrument and putting together this set of sounds, we dug deep into traditional sounding riffs, patterns and motifs while staying true to the traditional sound of the instrument. 
   </div>
+	<div class="marimba-container">
+		<div class="marimba">
+			<div class="key"></div>
+			<div class="key"></div>
+			<div class="key"></div>
+			<div class="key"></div>
+			<div class="key"></div>
+			<div class="key"></div>
+			<div class="key"></div>
+			<div class="key"></div>
+		</div>
+	</div>
+      <div class="text-box">
+        <div class = "instructions">
+          <ul style="list-style-type: none;">
+              <li>A-K trigger single notes (C major scale)</li>
+              <li>1-8 trigger loops, L activates the looping function </li>
+              <li>The mouse on the x-axis controls the Filter Cutoff</li>
+              <li>The mouse on the y-axis controls the Resonance</li>
+              <li>The mouse on the x-axis also controls the panning.</li>
+              <li>Mouse clicks trigger a nice crunchy effect on the percussion loops.</li>
+              <li>0 stops every sound</li>
+            </ul>
+        </div>
+      </div>
+  </div>
+</body>
 </html>
