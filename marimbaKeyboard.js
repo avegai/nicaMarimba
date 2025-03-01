@@ -92,9 +92,9 @@ let marimbaSketch = (p) => {
   
     p.keyPressed = () => {
       if (!appStarted) {
-        appStarted = true;  // Unlocks sound on first interaction
-        return;  // This prevents execution only on the first key press
-      }
+        p.userStartAudio();  // Unlock sound system
+        appStarted = true;   // Now sounds can play normally
+      }    
   
       let keyMap = {
         a: "marimbaC",
