@@ -2,7 +2,7 @@ let marimbaSketch = (p) => {
     let appStarted = false;
     let loopEnabled = false; // Toggle for continuous looping
 
-    let delay, filter, distortion, reverb;
+    let delay, LowPass, highPass, distortion, reverb;
     let sounds = {};
     let soundPaths = {
       percLoop: "assets/SC_NM_93_perc_loop_high_atabal_3_4_time.wav",
@@ -30,23 +30,26 @@ let marimbaSketch = (p) => {
     };
   
     p.setup = () => {
-      // p.createCanvas(p.windowWidth, p.windowHeight);
   
       // Initialize sound effects
       delay = new p5.Delay();
-      filter = new p5.LowPass();
+      LowPass = new p5.LowPass();
+      highPass = new p5.HighPass();
       distortion = new p5.Distortion();
       reverb = new p5.Reverb();
-  
+
       // Connect audio effects
       sounds.marimbArp.disconnect();
-      sounds.marimbArp.connect(filter);
-      filter.disconnect();
-      filter.connect(delay);
+      sounds.marimbArp.connect(LowPass);
+      LowPass.disconnect();
+      LowPass.connect(delay);
   
       sounds.marimbaFX.disconnect();
       sounds.marimbaFX.connect(delay);
-  
+
+      sounds.marimbaMasaya.disconnect();
+      sounds.marimbaMasaya.connect(highPass);
+      
       sounds.percLoop.disconnect();
       sounds.percLoop.connect(distortion);
   
@@ -54,27 +57,37 @@ let marimbaSketch = (p) => {
       sounds.marimbaPing.connect(reverb);
     };
 
-  //   p.windowResized = () => {
-  //     p.resizeCanvas(p.windowWidth, p.windowHeight);
-  // };
-  
     p.draw = () => {
-      p.frameRate(60);
-    //   p.background(0);
-  
+      p.createCanvas(p.windowWidth, p.windowHeight);
+
       let frequency = p.map(p.mouseX, 0, p.windowWidth, 60, 20000);
-      let resonance = p.map(p.mouseX, 0, p.windowWidth, 5, 100);
-      filter.freq(frequency);
-      filter.res(resonance);
+      let resonance = p.map(p.mouseX, 0, p.windowWidth, 5, 35);
+      LowPass.freq(frequency);
+      LowPass.res(resonance);
   
-      let paneo = p.map(p.mouseX, 0, p.width, -1, 1);
-      sounds.marimbaFX.pan(paneo);
+      let paneo1 = p.map(p.mouseX, 0, p.windowWidth, -1, 1);
+      sounds.marimbaFX.pan(paneo1);
+
+      let paneo2 = p.map(p.mouseX, 0, p.windowWidth, -1, 1);
+      sounds.marimbaSad.pan(paneo2);
+
+      let frequency2 = p.map(p.mouseX, 0, p.windowWidth, 500, 2000);
+      let resonance2 = p.map(p.mouseX, 0, p.windowWidth, 5, 25);    
+      highPass.freq(frequency2);
+      highPass.res(resonance2);
+
+      reverb.drywet(0.5);
+      // highPass.freq(1000);
+      // highPass.res(0.5);
+      delay.drywet(0.9);
+      delay.feedback(0.7);
   
       if (p.mouseIsPressed) {
         distortion.drywet(0.5);
       } else {
         distortion.drywet(0);
       }
+      
     };
   
     p.keyPressed = () => {
