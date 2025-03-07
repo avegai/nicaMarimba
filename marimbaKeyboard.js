@@ -124,6 +124,13 @@ let marimbaSketch = (p) => {
       document.addEventListener('click', initializeAudio);
       document.addEventListener('keydown', initializeAudio);
       document.addEventListener('touchstart', initializeAudio);
+
+      document.querySelectorAll('.loops button, .controls button').forEach(el => {
+        el.addEventListener('click', () => {
+          const loopKey = el.getAttribute('data-key');
+          handleKeysAndLoops(loopKey);
+        })
+      })
     };
 
     p.draw = () => {
@@ -171,7 +178,9 @@ let marimbaSketch = (p) => {
       }
     };
   
-    p.keyPressed = async () => {
+    p.keyPressed = async (e) => handleKeysAndLoops(e.key.toLowerCase())
+
+    async function handleKeysAndLoops(key){
       // Always try to initialize audio first
       if (!p.audioContextStarted) {
         await initializeAudio();
@@ -196,8 +205,8 @@ let marimbaSketch = (p) => {
         8: "marimbaPing",
       };
 
-      // Toggle looping mode with 'L' key
-      if (p.key.toLowerCase() === 'l') {
+      // Toggle looping mode with 'L' key or loop button
+      if (key === 'l' || key === 'loop') {
         loopEnabled = !loopEnabled;
         console.log(`Looping mode: ${loopEnabled ? "ON" : "OFF"}`);
         
@@ -207,22 +216,33 @@ let marimbaSketch = (p) => {
             p.sounds[soundKey].stop();
           }
           currentlyLooping.clear();
+
+          document.querySelector('button[data-key="loop"]').classList.remove('enabled');
+          document.querySelectorAll('.numbered-loop').forEach(el => {
+            el.classList.remove('enabled');
+          })
+        } else {
+          document.querySelector('button[data-key="loop"]').classList.add('enabled');
         }
         return;
       }
     
-      if (keyMap[p.key]) {
+      if (keyMap[key]) {
         try {
-          let soundKey = keyMap[p.key];
-          let sound = p.sounds[soundKey];
+          let soundKey = keyMap[key];
+          let sound = p.sounds[soundKey];0
           
-          if (["1", "2", "3", "4", "5", "6", "7", "8"].includes(p.key)) {
+          if (["1", "2", "3", "4", "5", "6", "7", "8"].includes(key)) {
+            const button = document.querySelector(`button[data-key="${key}"]`);
             // If the sound is already looping, stop it
-            if (currentlyLooping.has(soundKey)) {
+            if (currentlyLooping.has(soundKey) || button.classList.contains('enabled')) {
               sound.stop();
               currentlyLooping.delete(soundKey);
+
+              button.classList.remove('enabled')
             } else {
               // Start the sound (either looping or one-shot)
+              button.classList.add('enabled')
               if (loopEnabled) {
                 await sound.loop();
                 currentlyLooping.add(soundKey);
@@ -232,6 +252,12 @@ let marimbaSketch = (p) => {
             }
           } else {
             // For non-loopable sounds, just play them
+            document.querySelector(`#${keyMap[key]}`).style.background = 'var(--active)'
+
+            setTimeout(() => {
+              document.querySelector(`#${keyMap[key]}`).style.background = ''
+            }, 200)
+
             await sound.play();
           }
         } catch (e) {
@@ -240,9 +266,13 @@ let marimbaSketch = (p) => {
       }
 
       // Stop all sounds when "0" is pressed
-      if (p.key === '0') {
+      if (key === '0' || key === 'stop') {
         p.stopSound();
         currentlyLooping.clear(); // Clear the looping set
+
+        document.querySelectorAll('.numbered-loop').forEach(el => {
+          el.classList.remove('enabled');
+        })
       }
     };
   
@@ -252,6 +282,4 @@ let marimbaSketch = (p) => {
       }
     };
   };
-  
-  // Attach the sketch to a specific container
   new p5(marimbaSketch, "sketch-container-1");

@@ -1,36 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/addons/p5.sound.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/addons/p5.sound.js"></script>
 
-  <script src="marimbaKeyboard.js"></script> 
-  <script src="marimbaHover.js"></script>
+	<script src="marimbaKeyboard.js"></script>
+	<script src="marimbaHover.js"></script>
 
 	<title>Nicaraguan Marimba</title>
 	<style>
+		:root {
+			--active: hsl(212, 70%, 46%);
+			--default: #0033A0;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
 
 		body {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-      		padding-top: 20px;
+			padding-top: 20px;
 			background-color: #FFFFFF;
 			font-family: monospace;
 			text-align: center;
-			color: #0033A0;
+			color: var(--default);
 		}
 
 		.text-box {
-			width: 440px;
-			padding: 20px;
-			border: 2px solid #0033A0;
+			border: 2px solid var(--default);
 			margin: 20px auto;
 			background-color: #FFFFFF;
-			color: #0033A0;
+			color: var(--default);
+		}
+
+		main {
+			position: fixed;
+		}
+
+		body > div {
+			position: relative;
+			z-index: 1;
+		}
+
+		.text-box,
+		.loops,
+		.controls,
+		.marimba-container {
+			padding: 20px;
+			width: 100%;
+			max-width: 440px;
 		}
 
 		.instructions {
@@ -38,11 +63,11 @@
 			margin: 2px;
 			/* line-height: 1; */
 			/* letter-spacing: 0.5px; */
-			}
+		}
 
 		.instructions ul li {
-		margin-bottom: 6px;
-		margin-left: 1px
+			margin-bottom: 6px;
+			margin-left: 1px
 		}
 
 		.about-me {
@@ -52,25 +77,58 @@
 			letter-spacing: 0px;
 		}
 
+		.loops {
+			display: flex;
+			justify-content: space-between;
+			padding-left: 0;
+			padding-right: 0;
+			padding-bottom: 10px;
+		}
+
+		.controls {
+			padding-top: 0;
+			display: flex;
+			justify-content: center;
+			gap: 5px;
+			padding-bottom: 0;
+		}
+
+		.loops button,
+		.controls button {
+			border: 2px solid var(--default);
+			background-color: #FFFFFF;
+			color: var(--default);
+			padding: 10px;
+		}
+
+		button:hover {
+			background: rgb(169, 209, 255);
+		}
+
+		button.enabled {
+			background: var(--active);
+			color: #fff;
+		}
+
 		.marimba-container {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			padding: 20px;
-			border: 2px solid #0033A0;
+			border: 2px solid var(--default);
 			background-color: #FFFFFF;
-			width: 440px;
 		}
 
 		.marimba {
 			display: flex;
 			gap: 5px;
 			align-items: center;
+			width: 100%;
 		}
 
 		.key {
-			width: 50px;
-			background-color: #0033A0;
+			flex: 1 1 auto;
+			background-color: var(--default);
 			border: 2px solid #FFFFFF;
 			border-radius: 5px;
 			color: #FFFFFF;
@@ -79,54 +137,109 @@
 			align-items: center;
 		}
 
-		.key:nth-child(1) { height: 200px; }
-		.key:nth-child(2) { height: 180px; }
-		.key:nth-child(3) { height: 160px; }
-		.key:nth-child(4) { height: 140px; }
-		.key:nth-child(5) { height: 120px; }
-		.key:nth-child(6) { height: 100px; }
-		.key:nth-child(7) { height: 80px; }
-		.key:nth-child(8) { height: 60px; }
+		.key:hover {
+			background: var(--active);
+		}
+
+		.key:nth-child(1) {
+			height: 200px;
+		}
+
+		.key:nth-child(2) {
+			height: 180px;
+		}
+
+		.key:nth-child(3) {
+			height: 160px;
+		}
+
+		.key:nth-child(4) {
+			height: 140px;
+		}
+
+		.key:nth-child(5) {
+			height: 120px;
+		}
+
+		.key:nth-child(6) {
+			height: 100px;
+		}
+
+		.key:nth-child(7) {
+			height: 80px;
+		}
+
+		.key:nth-child(8) {
+			height: 60px;
+		}
 	</style>
 
 </head>
+
 <body>
 	<div class="text-box">
-		There are two theories about the marimba’s origins, one is a whisper from the past, the other a tale carried by the tides of history.
-		Some say its roots stretch deep into the pre-Columbian times, born from the hands of Mesoamerican indigenous artisans who shaped wood into something timeless. Others believe it arrived from across the Atlantic ocean, brought by enslaved Africans who carried their rhythms, their sorrow, and their spirit into the heart of the Americas.
-		The Nicaraguan marimba, at first glance, resembles its Guatemalan or Colombian cousins, yet its voice is distinct, richer, earthier, and touched with an unmistakable crunch. This raw edge comes from gourd resonators textured by membranes crafted from pig intestines, a detail that gives the instrument its signature bite.
-		I had the privilege of working with two extraordinary marimba players from Nicaragua’s new generation: Carlos Luis Mejía and Evenor González. Each has pushed the instrument’s limits while remaining faithful to its soul, Mejía with La Cuneta Son Machín, González with Momotombo.
-		When capturing these sounds, we dug deep into ancestral riffs, looping motifs, and age old rhythms, honoring the past while allowing the marimba to breathe, to evolve and to sing in a language as old as the land itself.
-  </div>
+		There are two theories about the marimba’s origins, one is a whisper from the past, the other a tale carried by
+		the tides of history.
+		Some say its roots stretch deep into the pre-Columbian times, born from the hands of Mesoamerican indigenous
+		artisans who shaped wood into something timeless. Others believe it arrived from across the Atlantic ocean,
+		brought by enslaved Africans who carried their rhythms, their sorrow, and their spirit into the heart of the
+		Americas.
+		The Nicaraguan marimba, at first glance, resembles its Guatemalan or Colombian cousins, yet its voice is
+		distinct, richer, earthier, and touched with an unmistakable crunch. This raw edge comes from gourd resonators
+		textured by membranes crafted from pig intestines, a detail that gives the instrument its signature bite.
+		I had the privilege of working with two extraordinary marimba players from Nicaragua’s new generation: Carlos
+		Luis Mejía and Evenor González. Each has pushed the instrument’s limits while remaining faithful to its soul,
+		Mejía with La Cuneta Son Machín, González with Momotombo.
+		When capturing these sounds, we dug deep into ancestral riffs, looping motifs, and age old rhythms, honoring the
+		past while allowing the marimba to breathe, to evolve and to sing in a language as old as the land itself.
+	</div>
 	<div class="marimba-container">
 		<div class="marimba">
-			<div class="key"></div>
-			<div class="key"></div>
-			<div class="key"></div>
-			<div class="key"></div>
-			<div class="key"></div>
-			<div class="key"></div>
-			<div class="key"></div>
-			<div class="key"></div>
+			<div id="marimbaC" class="key"></div>
+			<div id="marimbaD" class="key"></div>
+			<div id="marimbaE" class="key"></div>
+			<div id="marimbaF" class="key"></div>
+			<div id="marimbaG" class="key"></div>
+			<div id="marimbaA" class="key"></div>
+			<div id="marimbaB" class="key"></div>
+			<div id="marimbaC2" class="key"></div>
 		</div>
 	</div>
-      <div class="text-box">
-        <div class = "instructions">
-          <ul style="list-style-type: none;">
-            <li>Hovering over the bars or pressing keys A-K trigger single notes.</li>
-            <li>1-8 trigger loops, L activates the looping function. </li>
-            <li>The mouse's x-axis and y-axis control different effects parameters for each loop.</li>
-            <li>Mouse clicks during loops 2 and 7 trigger a nice crunchy effect.</li>
-            <li>0 stops every sound. </li>
-            </ul>
-        </div>
-      </div>
+
+	<div class="loops">
+		<button class="numbered-loop" data-key="1">arp</button>
+		<button class="numbered-loop" data-key="2">perc</button>
+		<button class="numbered-loop" data-key="3">fx</button>
+		<button class="numbered-loop" data-key="4">sad</button>
+		<button class="numbered-loop" data-key="5">masaya</button>
+		<button class="numbered-loop" data-key="6">zapateo</button>
+		<button class="numbered-loop" data-key="7">cyc</button>
+		<button class="numbered-loop" data-key="8">ping</button>
+	</div>
+	<div class="controls">
+		<button data-key="loop">loop</button>
+
+		<button data-key="stop">stop</button>
+	</div>
 	<div class="text-box">
-		<div class = "about-me">
-		<p>Created by <a href="https://www.avegai.com">Alejandro Vega</a></p>
-		<p>Nicaraguan musician, sound designer and </p>
-		<p> co-founder of <a href="https://www.nuwavlab.com"> nu.wav</a></p>		
-		
-  </div>
+		<div class="instructions">
+			<ul style="list-style-type: none;">
+				<li>Hovering over the bars or pressing keys A-K trigger single notes.</li>
+				<li>1-8 trigger loops, L activates the looping function. </li>
+				<li>The mouse's x-axis and y-axis control different effects parameters for each loop.</li>
+				<li>Mouse clicks during loops 2 and 7 trigger a nice crunchy effect.</li>
+				<li>0 stops every sound. </li>
+			</ul>
+		</div>
+	</div>
+	<div class="text-box">
+		<div class="about-me">
+			<p>Created by <a href="https://www.avegai.com" target="_blank">Alejandro Vega</a></p>
+			<p>Nicaraguan musician, sound designer and </p>
+			<p> co-founder of <a href="https://www.nuwavlab.com"> nu.wav</a></p>
+
+		</div>
+	</div>
 </body>
+
 </html>
