@@ -210,19 +210,17 @@ let marimbaSketch = (p) => {
         loopEnabled = !loopEnabled;
         console.log(`Looping mode: ${loopEnabled ? "ON" : "OFF"}`);
         
-        // If turning off loop mode, stop all currently looping sounds
+        // Update loop button state
+        document.querySelector('button[data-key="loop"]').classList.toggle('enabled', loopEnabled);
+
+        // If turning off loop mode, let currently looping sounds finish their current playthrough
         if (!loopEnabled) {
           for (let soundKey of currentlyLooping) {
-            p.sounds[soundKey].stop();
+            if (p.sounds[soundKey].isLooping()) {
+              p.sounds[soundKey].setLoop(false);
+            }
           }
-          currentlyLooping.clear();
-
-          document.querySelector('button[data-key="loop"]').classList.remove('enabled');
-          document.querySelectorAll('.numbered-loop').forEach(el => {
-            el.classList.remove('enabled');
-          })
-        } else {
-          document.querySelector('button[data-key="loop"]').classList.add('enabled');
+          // Don't clear currentlyLooping here - let sounds finish naturally
         }
         return;
       }
@@ -230,34 +228,38 @@ let marimbaSketch = (p) => {
       if (keyMap[key]) {
         try {
           let soundKey = keyMap[key];
-          let sound = p.sounds[soundKey];0
+          let sound = p.sounds[soundKey];
           
           if (["1", "2", "3", "4", "5", "6", "7", "8"].includes(key)) {
             const button = document.querySelector(`button[data-key="${key}"]`);
-            // If the sound is already looping, stop it
-            if (currentlyLooping.has(soundKey) || button.classList.contains('enabled')) {
+            
+            // If the sound is already playing, stop it
+            if (currentlyLooping.has(soundKey)) {
               sound.stop();
               currentlyLooping.delete(soundKey);
-
-              button.classList.remove('enabled')
+              button.classList.remove('enabled');
             } else {
               // Start the sound (either looping or one-shot)
-              button.classList.add('enabled')
               if (loopEnabled) {
                 await sound.loop();
                 currentlyLooping.add(soundKey);
+                button.classList.add('enabled');
               } else {
                 await sound.play();
+                button.classList.add('enabled');
+                // Remove enabled class when one-shot sound finishes
+                sound.onended(() => {
+                  button.classList.remove('enabled');
+                  currentlyLooping.delete(soundKey);
+                });
               }
             }
           } else {
-            // For non-loopable sounds, just play them
-            document.querySelector(`#${keyMap[key]}`).style.background = 'var(--active)'
-
+            // For non-loopable sounds (single notes), just play them
+            document.querySelector(`#${keyMap[key]}`).style.background = 'var(--active)';
             setTimeout(() => {
-              document.querySelector(`#${keyMap[key]}`).style.background = ''
-            }, 200)
-
+              document.querySelector(`#${keyMap[key]}`).style.background = '';
+            }, 200);
             await sound.play();
           }
         } catch (e) {
@@ -265,14 +267,19 @@ let marimbaSketch = (p) => {
         }
       }
 
-      // Stop all sounds when "0" is pressed
+      // Stop all sounds when "0" is pressed or stop button clicked
       if (key === '0' || key === 'stop') {
+        const stopButton = document.querySelector('button[data-key="stop"]');
+        stopButton.classList.add('enabled');
+        setTimeout(() => stopButton.classList.remove('enabled'), 200);
+        
         p.stopSound();
-        currentlyLooping.clear(); // Clear the looping set
-
+        currentlyLooping.clear();
+        
+        // Remove enabled class from all loop buttons
         document.querySelectorAll('.numbered-loop').forEach(el => {
           el.classList.remove('enabled');
-        })
+        });
       }
     };
   
